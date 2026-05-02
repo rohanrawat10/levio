@@ -19,3 +19,5 @@ const isAuth = (req, res, next) => {
     res.status(500).json({ message: "isAuth Error:", error: err.message });
   }
 };
+
+export default isAuth;
