@@ -1,24 +1,51 @@
 import React from 'react'
+import {useNavigate} from "react-router-dom"
 import {BsRobot} from "react-icons/bs"
 import { IoSparklesSharp } from "react-icons/io5";
 import {motion} from "motion/react";
 import { FcGoogle } from "react-icons/fc";
 import {GoogleAuthProvider,signInWithPopup} from "firebase/auth"
-import { auth } from '../firebase';
+import { auth } from '../utils/firebase';
+import {serverUrl} from "../utils/config"
+import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice';
 function Auth() {
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
     const googleAuth = async()=>{
+       try{
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth,provider)
-    }
+      console.log(result)
+     
+         const {data} = await axios.post(`${serverUrl}/api/auth/google-auth`,{
+            name:result.user.displayName,
+            email:result.user.email,
+         },{withCredentials:true})
+         dispatch(setUserData(result.data))
+         console.log("User Saved:",data)
+           navigate("/")
+      }
+      catch(err){
+         console.log(err.message)
+         dispatch(setUserData(null));
+      }
+      }
   return (
-    <div className='flex w-full min-h-screen bg-[#f3f3f3] items-center
+    <div className=' flex w-full min-h-screen bg-[#f3f3f3] items-center
      justify-center px-6 py-20 '>
         <motion.div 
-          initial={{opacity:0,y:-60}}
+          initial={{opacity:0,y:-80}}
           animate={{opacity:1,y:0}}
           transition={{duration:1}}
         className='w-full max-w-md p-8 rounded-3xl bg-white shadow-2xl
            border border-gray-200'>
+            <motion.div
+            initial={{opacity:0,x:-40}}
+            animate={{opacity:1,x:0}}
+            transition={{duration:1}}
+            >
             <div className='flex items-center justify-center gap-3 mb-6'>
                 <div className='bg-black text-white p-2 rounded-lg'>
                    <BsRobot size={18}/>
@@ -46,6 +73,7 @@ function Auth() {
                     <FcGoogle size={20}/>
                     Continue with Google
                  </motion.button>
+                 </motion.div>
         </motion.div>
     </div>
   )
