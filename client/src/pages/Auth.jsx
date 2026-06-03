@@ -10,7 +10,7 @@ import {serverUrl} from "../utils/config"
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
-function Auth() {
+function Auth({isModal = false}) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
     const googleAuth = async()=>{
@@ -23,7 +23,7 @@ function Auth() {
             name:result.user.displayName,
             email:result.user.email,
          },{withCredentials:true})
-         dispatch(setUserData(result.data))
+         dispatch(setUserData(data.user))
          console.log("User Saved:",data)
            navigate("/")
       }
@@ -33,13 +33,13 @@ function Auth() {
       }
       }
   return (
-    <div className=' flex w-full min-h-screen bg-[#f3f3f3] items-center
+    <div className=' flex w-full min-h-screen items-center
      justify-center px-6 py-20 '>
-        <motion.div 
+        <motion.div  
           initial={{opacity:0,y:-80}}
           animate={{opacity:1,y:0}}
           transition={{duration:1}}
-        className='w-full max-w-md p-8 rounded-3xl bg-white shadow-2xl
+        className='w-full max-w-md p-8 rounded-3xl bg-white shadow-3xl
            border border-gray-200'>
             <motion.div
             initial={{opacity:0,x:-40}}
