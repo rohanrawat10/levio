@@ -15,6 +15,7 @@ function App() {
           const result = await axios.get(`${serverUrl}/api/user/get-user`,{
             withCredentials:true
           })
+          console.log("result data app.jsx",result.data)
           dispatch(setUserData(result.data));
         }
           catch(err){

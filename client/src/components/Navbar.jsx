@@ -10,6 +10,7 @@ import { IoIosLogOut, IoMdAddCircleOutline } from "react-icons/io";
 import { serverUrl } from '../utils/config';
 import { setUserData } from '../redux/userSlice';
 import AuthModel from './AuthModel';
+import toast from 'react-hot-toast';
 // import { IoIosLogOut } from "react-icons/io";
 function Navbar() {
     const {userData} = useSelector((state)=>state.user);
@@ -28,10 +29,14 @@ function Navbar() {
           try{
              const result = await axios.get(`${serverUrl}/api/auth/signOut`,{withCredentials:true})
                  dispatch(setUserData(null))
+                 setUserPopUp(false)
+                 toast.success("Logged out!");
                 //  navigate("/auth")
             }
           catch(err){
             console.log("Handle logout Error:",err.message)
+            toast.error("Something went wrong!");
+            
           }
          }
 
@@ -75,6 +80,7 @@ function Navbar() {
                        setShowAuth(true)
                        return
                   }
+                  // setShowAuth(false)
                 setCreditPopUp(!creditPopUp)}}
               >
                 <FaCoins size={18}/>
@@ -104,6 +110,7 @@ function Navbar() {
                        setShowAuth(true)
                        return
                   }
+                  // setShowAuth(false)
               setUserPopUp(!userPopUp)}}>
                  {firstLetter || <FaUserAstronaut size={18} />}
               </button>
@@ -131,5 +138,5 @@ function Navbar() {
     </div>
   )
 }
-
+                                
 export default Navbar
