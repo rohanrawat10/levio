@@ -103,7 +103,7 @@ function Navbar() {
               }
             </div>
              <div className='relative' ref={userRef}>
-              <button className='flex items-center justify-center w-10 h-10 text-md rounded-full bg-black 
+              <button className=' flex items-center justify-center w-10 h-10 text-md rounded-full bg-black 
                     font-semibold text-white  cursor-pointer
               ' onClick={()=>{
                   if(!userData){
