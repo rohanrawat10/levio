@@ -22,6 +22,7 @@ import evalImg from "../assets/ai-ans.png";
 import resumeImg from "../assets/resume.png";
 import pdfImg from "../assets/pdf.png";
 import analyticsImg from "../assets/history.png";
+import Footer from "../components/Footer";
 function Home() {
   const { userData } = useSelector((state) => state.user);
   const [showAuth, setShowAuth] = useState(false);
@@ -30,7 +31,7 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-1 px-6 py-20">
+      <div className="flex-1 px-6 py-1">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">
             <motion.div
@@ -45,9 +46,11 @@ function Home() {
           </div>
           <div className="text-center mb-28">
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              // whileInView={{}}
               transition={{ duration: 0.8 }}
+              viewport={{once:false,amount:0.8}}
               className="text-4xl md:text-6xl font-semibold leading-tight max-w-4xl mx-auto"
             >
               Practice Interviews with
@@ -283,6 +286,7 @@ function Home() {
       </div>
 
       {showAuth && <AuthModel onClose={() => setShowAuth(false)} />}
+       <Footer/>
     </div>
   );
 }
