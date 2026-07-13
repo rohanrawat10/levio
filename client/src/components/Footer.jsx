@@ -1,43 +1,18 @@
-// import React from 'react'
-// import { BsRobot } from 'react-icons/bs'
-
-// function Footer() {
-//   return (
-//     <div className=' flex justify-center px-4 pb-1 py-4 pt-1 shadow-lg'>
-//       <div className='w-full max-w-full bg-white rounded-xl shadow-lg border border-gray-200 py-8 px-3 text-center'>
-//     <div className='flex justify-center items-center gap-3 mb-3'>
-//         <div className='bg-black text-white p-2 rounded-lg'>
-//             <BsRobot size={16}/>
-
-//         </div>
-//         <h2 className='font-semibold'>Livio.AI</h2>
-//     </div>
-//     <p className='text-gray-500 text-sm max-w-xl mx-auto'>
-//         AI-powered interview preparation platform designed to improve communication skills, technical depth and professional confidence.
-//     </p>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Footer
-
-
 import React from 'react'
 import { BsRobot, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs'
 import { motion } from 'motion/react'
 
 function Footer() {
   const links = {
-    Product: ["Features", "How it works", "Pricing", "Interview History"],
-    Company: ["About", "Blog", "Careers", "Contact"],
+    Product: ["Features", "Interview History"],
+    Company: ["About",  "Contact"],
     Legal: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
   }
 
   return (
-    <footer className='flex justify-center px-4 py-8'>
-      <div className='w-full max-w-5xl bg-white rounded-2xl shadow-sm 
-        border border-gray-200 py-10 px-8'>
+    <footer className='flex justify-center px-4 py-3'>
+      <div className='w-full max-w-screen bg-white rounded-2xl shadow-sm 
+        border border-gray-200 py-5 px-5'>
 
         {/* Top section */}
         <div className='flex flex-col md:flex-row justify-between gap-10 mb-10'>
