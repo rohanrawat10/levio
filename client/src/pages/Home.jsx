@@ -155,7 +155,7 @@ function Home() {
               </motion.div>
             ))}
           </div>
-          <div className="mb-32">
+          <div id="about" className="mb-32">
             <motion.h2
               initial={{ opacity: 0, y: -30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -224,7 +224,7 @@ function Home() {
               ))}
             </div>
           </div>
-          <div className="mb-32">
+          <div id="features" className="mb-32">
             <motion.h2
               initial={{ opacity: 0, y: -30 }}
               whileInView={{ opacity: 1, y: 0 }}

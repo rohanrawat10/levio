@@ -21,4 +21,4 @@ function AuthModel({onClose}) {
   )
 }
 
-export default AuthModel;   
+export default AuthModel;       

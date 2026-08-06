@@ -1,12 +1,20 @@
 import React from 'react'
 import { BsRobot, BsGithub, BsLinkedin, BsTwitterX } from 'react-icons/bs'
 import { motion } from 'motion/react'
+import { href } from 'react-router-dom'
 
 function Footer() {
   const links = {
-    Product: ["Features", "Interview History"],
-    Company: ["About",  "Contact"],
-    Legal: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
+    Product: [{name:"Features",href:"#features"},
+      {name:"Interview History",href:"#Interview-history"}
+
+    ],
+
+    Company: [{name:"About",href:"#about"},
+      {name: "Contact",href:"#contact"}],
+    Legal: [{name:"Privacy Policy",href:"#privacy"},
+       {name:"Terms of Service",href:"#terms"},
+        {name:"Cookie Policy",href:"#cookies"}],
   }
 
   return (
@@ -23,7 +31,7 @@ function Footer() {
               <div className='bg-black text-white p-2 rounded-lg'>
                 <BsRobot size={16} />
               </div>
-              <h2 className='font-semibold text-lg'>Prepzio.AI</h2>
+              <h2 className='font-semibold text-lg'>Livio.AI</h2>
             </div>
             <p className='text-gray-500 text-sm leading-relaxed'>
               AI-powered interview preparation platform designed to improve
@@ -64,12 +72,12 @@ function Footer() {
                   {items.map((item) => (
                     <li key={item}>
                       <motion.a
-                        href="#"
+                        href={item.href}
                         whileHover={{ x: 3 }}
                         className='text-sm text-gray-500 hover:text-black 
                           transition-colors duration-200 cursor-pointer'
                       >
-                        {item}
+                        {item.name}
                       </motion.a>
                     </li>
                   ))}

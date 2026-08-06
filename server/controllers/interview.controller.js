@@ -19,7 +19,7 @@ export const analyzeResume = async (req, res) => {
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const content = await page.getTextContent();
-      const pageText = content.items.map((item) => item.str.join(" "));
+      const pageText = content.items.map((item) => item.str).join(" ");
       resumeText += pageText + "\n";
     }
      resumeText = resumeText
@@ -48,13 +48,13 @@ export const analyzeResume = async (req, res) => {
         }
      ]
     const aiResponse = await askAi(messages);
-    const parsed = await JSON.parse(aiResponse);
+    const parsed =  JSON.parse(aiResponse);
    await fs.promises.unlink(filePath);
 
     res.status(200).json({
         role:parsed.role,
         experience:parsed.experience,
-        projects:parsed.experience,
+        projects:parsed.projects,
         skills:parsed.skills,
         resumeText,
     })
