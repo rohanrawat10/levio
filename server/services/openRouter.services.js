@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const askAi = async(messages)=>{
+    console.log("API KEY:",process.env.OPENROUTER_API_KEY);
     try{
 if(!messages || !Array.isArray(messages) || messages.length === 0)
 {

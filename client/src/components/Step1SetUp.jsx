@@ -25,14 +25,16 @@ function Step1SetUp({ onStart }) {
   const [analyzing, setAnalyzing] = useState(false);
 
   const handleUploadResume = async () => {
-    console.log("handle Resume is being Called")
+    console.log("1.function called");
+    console.log("2. resumeFile:",resumeFile);
+    console.log("3. analysing:",analyzing)
     if (!resumeFile || analyzing){
-      console.log("2 returned ")
+      console.log("4. returned early - resumefile or analyzing blocked it ")
       return;
     };
     setAnalyzing(true);
     setLoading(true);
-      console.log("passed validation 3")
+      // console.log("passed validation 3")
     const formData = new FormData();
     formData.append("resume", resumeFile);
 
@@ -44,7 +46,7 @@ function Step1SetUp({ onStart }) {
           withCredentials: true,
         },
       );
-      console.log("Resume Data" + response.data);
+      console.log("Resume Data" , response.data);
       setRole(response.data.role || "");
       setExperience(response.data.experience || "");
       setProjects(response.data.projects || []);
@@ -201,6 +203,40 @@ function Step1SetUp({ onStart }) {
                 )}
               </motion.div>
             )}
+            {
+              analysisDone && (
+                <motion.div
+                initial={{opacity:0,y:20}}
+                animate={{opacity:1,y:0}}
+                className="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4">
+                     <h3 className="text-lg font-semibold text-gray-800">
+                      Resume Analysis Report
+                     </h3>
+                     {projects.length>0 &&(
+                      <div>
+                        <p className="font-medium text-gray-700 mb-1">Projects:</p>
+                             <ul className="list-disc  list-inside text-gray-600 space-y-1">
+                              {projects.map((item,index)=>(
+                                <li key={index}>{item}</li>
+                              ))}
+                             </ul>
+                      </div>
+                     )} 
+                        {skills.length>0 &&(
+                      <div>
+                        <p className="font-medium text-gray-700 mb-1">Skills:</p>
+                              <div className="flex flex-wrap gap-2">
+                              {skills.map((item,index)=>(
+                                <span key={index} className="bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm">{item}</span>
+                              ))}
+                              </div>
+                            
+                      </div>
+                     )} 
+                           
+                </motion.div>
+              )
+            }
 
             {/* Start Button */}
             <motion.button

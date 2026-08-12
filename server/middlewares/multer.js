@@ -1,12 +1,17 @@
 import multer from "multer";
 import path from "path";
-
+import fs from "fs";
 const storage = multer.diskStorage({
     destination:(req,file,cb)=>{
+        if(!fs.existsSync("./public")){
+            fs.mkdirSync("./public");
+        }
+        
         cb(null,"./public");
+        
     },
     filename:(req,file,cb)=>{
-        const uniqueName = Date.now()+"-"+file.originalname;
+        const uniqueName = Date.now()+"-"+file.originalname.replace(/\s+/g,"_");
         cb(null,uniqueName)
     }
 
