@@ -3,6 +3,8 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { askAi } from "../services/openRouter.services.js";
 import User from "../models/user.models.js";
 import { monitorEventLoopDelay } from "perf_hooks";
+
+
 export const analyzeResume = async (req, res) => {
   console.log("1. controller hit");
   console.log("2.req.file", req.file);
@@ -168,14 +170,110 @@ export const genrateQuestions = async (req, res) => {
         timeLimit: [60, 90, 90, 120, 120][index],
       })),
     });
-          res.json({
-            interviewId:interview._id,
-            creditsLeft:user.credits,
-            userName:user.name,
-            questions:interview.questions
-          });
+    res.json({
+      interviewId: interview._id,
+      creditsLeft: user.credits,
+      userName: user.name,
+      questions: interview.questions,
+    });
+  } catch (err) {
+    return res.status(500).json({ message: `failed to generate questions: ${err.message} `});
+  }
+};
+
+export const submitAnswer = async (req, res) => {
+  try {
+    const { interviewId, interviewIndex, answer, timeTaken } = req.body;
+    const interview = await Interview.findById(interviewIndex);
+    const question = interview.questions[interviewIndex];
+    // if no answer
+    if (!interview || !question) {
+      question.score = 0;
+      ((question.feedback = "You did not submit an answer"),
+        (question.answer = ""));
+      await interview.save();
+      return res.json({
+        feedback: question.feedback,
+      });
+    }
+    // if time exceeded
+    if (timeTaken > intverview.timeLimit) {
+      question.score = 0;
+      question.feedback = "Time limit exceeded. Answer not evaluted.";
+      question.answer = answer;
+
+      await interview.save();
+      res.status({
+        feedback: question.feedback,
+      });
+    }
+
+    const messages = [
+      {
+        role: "System",
+        content: `
+        You are a real human interviewer conducting a professional interview.
+
+       Evalute naturally and fairly, like a real person would.
+       
+       Score the answer in these areas (0 to 10):
+
+       1.Confidence - Does the answer sound clear, confident, and well-presented?
+       2. Communication - Is the language simple, clear , and easy to understand?
+       3. Corrections - Is the answer accurate, relevant, and complete?
+
+       Rules:
+       - Be realistic and unbiased. 
+       - Do not give random high scores.
+       - If the answer is weak, score low.
+       - If the answer is strong and detailed, score high.
+       - Consider clarity, structure, and relevance.
+        
+       Calculate: 
+       finalScore = average of confidence, communication, and correctness (rounded to nearest whole number).
+
+       Feedback Rules:
+       - Write natural human feedback.
+      - 10 to 15 words only.
+      - Sound like real interview feedback.
+      - Can suggest imporevment if needed.
+      - Do NOT repeat the question.
+      - Keep tone professional and honest.
+
+      Return ONLY valid JSON in this format:
+      {
+      "confidnce":number,
+      "communication":number,
+      "correctness":number,
+      "finalScore":number,
+
+      }
+       `,
+      },
+      {
+        role: "user",
+        conten: `
+        Question:${question.question}
+        Answer:${answer}
+
+        `
+      },
+    ];
+
+    const aiResponse = await askAi(messages)
+    const parsed = JSON.parse(aiResponse)
+
+    question.answer = answer;
+    question.confidence = parsed.confidence;
+    question.communication = parsed.communication;
+    question.correctness = parsed.correctness;
+    question.feedback = parsed.feedback;
+
+    await interview.save();
+
+    return res.status(200).json({feedback :parsed.feedback})
 
   } catch (err) {
-    return res.status(500).json({message:error.message});
-}
+    return res.status(500).json({ message: `failed to submit answer:${err.message}` });
+  }
 };
