@@ -3,6 +3,7 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { askAi } from "../services/openRouter.services.js";
 import User from "../models/user.models.js";
 import { monitorEventLoopDelay } from "perf_hooks";
+import Interview from "../models/interview.model.js";
 
 
 export const analyzeResume = async (req, res) => {
@@ -277,3 +278,56 @@ export const submitAnswer = async (req, res) => {
     return res.status(500).json({ message: `failed to submit answer:${err.message}` });
   }
 };
+
+
+export const finishInterview = async(req,res)=>{
+  try{
+      const {interviewId} = req.body; 
+      const interview = await Interview.findById(interviewId);
+      if(!interview){
+        return res.status(404).json({message:"Interview not found"});
+      }
+
+      let totalQuestions = interview.questions.length;
+
+      let totalScore = 0;
+      let totalConfidence = 0;
+      let totalCommunication = 0;
+      let totalCorrectioness = 0;
+
+      interview.questions.forEach((q)=>{
+        totalScore += q.score || 0;
+        totalConfidence += q.confidence || 0;
+        totalCommunication += q.communication || 0;
+        totalCorrectioness += q.correctness || 0;
+      });
+      
+      const finalScore = totalQuestions ? totalScore/totalQuestions:0;
+       const avgConfidence = totalQuestions ? totalConfidence/totalQuestions:0;
+       const  avgCommunication = totalQuestions ? totalCommunication/totalQuestions:0;
+       const  avgCorrectness = totalQuestions ? totalCorrectioness/totalQuestions:0;
+
+            interview.finalScore = finalScore;
+            interview.status = "completed";
+
+            await interview .save();
+            return res.status(200).json({
+              finalScore : Number(finalScore.toFixed(1)),
+              confidence:Number(avgConfidence.toFixed(1)),
+              communication:Number(avgCommunication.toFixed(1)),
+              correctness:Number(avgCorrectness.toFixed(1)),
+              questionWiseScore : interview.questions.map((q)=({
+                question:q.question,
+                score:q.scoe || 0,
+                feedback: q.freedback || "",
+                confidence:q.confidence || 0,
+                communication: q.communcation || 0,
+                correctness:q.correctness || 0,
+              }))
+            })
+
+  }
+  catch(err){
+    return res.status(500).json({message:`finish interview error ${err.message}`})
+  }
+}

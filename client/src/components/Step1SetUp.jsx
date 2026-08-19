@@ -13,6 +13,8 @@ import { ClipLoader } from "react-spinners";
 import { serverUrl } from "../utils/config";
 
 function Step1SetUp({ onStart }) {
+  const {userData} = useSelector((state)=>state.user);
+  const dispatch = useDispatch();
   const [role, setRole] = useState("");
   const [experience, setExperience] = useState("");
   const [mode, setMode] = useState("");
@@ -64,6 +66,22 @@ function Step1SetUp({ onStart }) {
       setAnalyzing(false);
     }
   };
+
+  const handleUpdate = async()=>{
+     try{
+        const response = await axios.post(`${serverUrl}/generate-questions`,
+          { role, experience, resumeText, mode, projects, skills},
+          {withCredentials:true})
+
+          console.log(response.data);
+          if(userData){
+            dispatch(setUserData({...userData, credits:response.data.creditsLeft}))
+          }
+     }
+     catch(err){
+
+     }
+  }
 
   return (
     <motion.div
