@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth",authRouter);
 app.use("/api/user",userRouter);
-app.use("/api/resume",interviewRoute);
+app.use("/api/interview",interviewRoute);
 // console.log("PORT from env:", process.env.PORT);
 server.listen(port,()=>{
     connectDb()

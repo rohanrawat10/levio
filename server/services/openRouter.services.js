@@ -7,6 +7,10 @@ if(!messages || !Array.isArray(messages) || messages.length === 0)
 {
     throw new Error("Message is array is Empty");
 }    
+console.log("Sending to OpenRouter:")
+console.log("Model:", "openai/gpt-4o-mini")
+console.log("Key:", process.env.OPENROUTER_API_KEY)
+console.log("Messages count:", messages.length)
 const response = await axios.post(`https://openrouter.ai/api/v1/chat/completions`,{
     model:"openai/gpt-4o-mini",
     messages:messages
@@ -14,7 +18,7 @@ const response = await axios.post(`https://openrouter.ai/api/v1/chat/completions
 {
    headers:{
     "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-    'Content-Type':'aplication/json'
+    'Content-Type':'application/json'
   },
 }
 );
@@ -25,6 +29,7 @@ const response = await axios.post(`https://openrouter.ai/api/v1/chat/completions
         return content;
     }
     catch(err){
+        console.log("STATUS",err.response?.status);
          console.log("Open Router Error:",err.response?.data || err.message);
          throw new Error("Open Router Error");
     }

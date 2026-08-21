@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 import { motion } from "motion/react";
 import toast from "react-hot-toast";
@@ -11,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
 import { serverUrl } from "../utils/config";
+import { setUserData } from "../redux/userSlice";
 
 function Step1SetUp({ onStart }) {
   const {userData} = useSelector((state)=>state.user);
@@ -42,7 +44,7 @@ function Step1SetUp({ onStart }) {
 
     try {
       const response = await axios.post(
-        `${serverUrl}/api/resume/resume`,
+        `${serverUrl}/api/interview/resume`,
         formData,
         {
           withCredentials: true,
@@ -57,7 +59,7 @@ function Step1SetUp({ onStart }) {
       setAnalysisDone(true);
       setAnalyzing(false);
       setLoading(false);
-      console.log("Toast should appear");
+      
 
        toast.success("Resume Analyzed! ✅");
     } catch (err) {
@@ -67,19 +69,26 @@ function Step1SetUp({ onStart }) {
     }
   };
 
-  const handleUpdate = async()=>{
+  const handleStart = async()=>{
+    setLoading(true);
      try{
-        const response = await axios.post(`${serverUrl}/generate-questions`,
+        const response = await axios.post(`${serverUrl}/api/interview/generate-questions`,
           { role, experience, resumeText, mode, projects, skills},
           {withCredentials:true})
 
-          console.log(response.data);
+          console.log("handle start data:",response.data);
           if(userData){
             dispatch(setUserData({...userData, credits:response.data.creditsLeft}))
           }
+          setLoading(false);
+          onStart(response.data)
+       toast.success("Resume Analyzed! ✅");
+
      }
      catch(err){
-
+      console.log("handle start error:",err.message)
+      setLoading(false);
+      toast.error("Error!")
      }
   }
 
@@ -261,26 +270,17 @@ function Step1SetUp({ onStart }) {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               disabled={!role || !experience || !mode}
-              onClick={() =>
-                onStart({
-                  role,
-                  experience,
-                  mode,
-                  resumeText,
-                  skills,
-                  projects,
-                })
-              }
+              onClick={handleStart}
               className="w-full disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600
                 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold
                 transition duration-200 shadow-md"
             >
-              {/* {loading ? (
+              {loading ? (
                 <ClipLoader size={20} color="#fff" />
-              ) : ( */}
-                {/* "Start Interview" */}
-              {/* )} */}
-              Start Interview
+              ) : ( 
+                 "Start Interview" 
+              )}
+              {/* // Start Interview */}
             </motion.button>
           </div>
         </motion.div>

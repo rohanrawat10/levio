@@ -75,11 +75,16 @@ export const analyzeResume = async (req, res) => {
 
 export const genrateQuestions = async (req, res) => {
   try {
-    const { role, experience, resumeText, mode, projects, skills } = req.body;
+    let { role, experience, resumeText, mode, projects, skills } = req.body;
     experience = experience.trim();
     resumeText = resumeText.trim();
     mode = mode.trim();
-    if (!role || !experience || !resumeText || !mode) {
+    if(!resumeText || resumeText.trim() === ""){
+      return res.status(400).json({
+        message:"Resume text is empty. please upload and analyze your resume first."
+      })
+    }
+    if (!role || !experience|| !mode) {
       return res.status(400).json({ message: "Enter the details!" });
     }
     const user = await User.findById(req.userId);
@@ -87,7 +92,7 @@ export const genrateQuestions = async (req, res) => {
       return res.status(400).json({ message: "User not found!" });
     }
     if (user.credits < 50) {
-      return res.status(400).json({ messages: "Add credits to contnue" });
+      return res.status(400).json({ message: "Add credits to contnue" });
     }
     const projectsText =
       Array.isArray(projects) && projects.length ? projects.join(", ") : "None";
@@ -107,7 +112,7 @@ export const genrateQuestions = async (req, res) => {
     }
     const messages = [
       {
-        role: "System",
+        role: "system",
         content: `
         You are a real human interviewer conducting a professional interview.
 
@@ -139,9 +144,10 @@ export const genrateQuestions = async (req, res) => {
       },
       {
         role: "user",
-        conten: userPrompt,
+        content: userPrompt,
       },
     ];
+    
     const aiResponse = await askAi(messages);
     if (!aiResponse || !aiResponse.trim()) {
       return res.status(500).json({ message: "AI returned empty response" });
@@ -157,9 +163,9 @@ export const genrateQuestions = async (req, res) => {
         message: "AI failed  to generate questions.",
       });
     }
-    user.credtis -= 50;
+    user.credits -= 50;
     await user.save();
-    const interview = await interview.create({
+    const interview = await Interview.create({
       userId: user._id,
       role,
       experience,
@@ -178,6 +184,7 @@ export const genrateQuestions = async (req, res) => {
       questions: interview.questions,
     });
   } catch (err) {
+    console.log("Genrate Questions Error:",err);
     return res.status(500).json({ message: `failed to generate questions: ${err.message} `});
   }
 };
@@ -328,6 +335,7 @@ export const finishInterview = async(req,res)=>{
 
   }
   catch(err){
+    console.log("finish interview error:",err)
     return res.status(500).json({message:`finish interview error ${err.message}`})
   }
 }

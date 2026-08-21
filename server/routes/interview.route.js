@@ -7,6 +7,6 @@ const interviewRoute = express.Router();
 interviewRoute.post("/resume",isAuth,upload.single("resume"),analyzeResume);;
 interviewRoute.post("/generate-questions",isAuth,genrateQuestions);
 interviewRoute.post("/submit-answer",isAuth,submitAnswer);
-interviewRoute.post("finish-interview",isAuth,finishInterview);
+interviewRoute.post("/finish-interview",isAuth,finishInterview);
 
 export default interviewRoute;
