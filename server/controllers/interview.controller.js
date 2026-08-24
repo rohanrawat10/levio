@@ -139,7 +139,13 @@ export const genrateQuestions = async (req, res) => {
         Question 4 → hard
         Question 5 → hard
 
-        Make questions based on the candidate's role, experience, interview mode, projects, skills and resume details.
+       Personalization:
+- Base the questions on the candidate's role, experience, interview mode, projects, skills, and resume details.
+- Ask about specific technologies, projects, decisions, challenges, or responsibilities mentioned in the candidate's resume.
+- Do not ask about information that is not available in the candidate's resume or interview context.
+- For technical roles, include practical technical questions rather than only theoretical definitions.
+- Make the difficulty increase naturally from basic understanding to problem-solving and deeper technical reasoning.
+
         `,
       },
       {
