@@ -20,6 +20,7 @@
     "mongoose": "^9.5.0",
     "multer": "^2.2.0",
     "nodemon": "^3.1.14",
-    "pdfjs-dist": "^6.1.200"
+    "pdfjs-dist": "^6.1.200",
+    "react-speech-recognition": "^4.0.1"
   }
 }
