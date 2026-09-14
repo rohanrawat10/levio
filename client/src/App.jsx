@@ -34,7 +34,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/auth' element={<Auth/>}/>
       <Route path='/interview' element={<InterviewPage/>}/>
-      <Route path='/report' element={<InterviewReport/>}/>
+      <Route path="/report/:id" element={<InterviewReport/>}/>
        <Route path='/interview-history' element={<HistoryPage/>} />
        
     </Routes>
