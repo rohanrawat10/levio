@@ -459,3 +459,14 @@ export const finishInterview = async (req, res) => {
       .json({ message: `finish interview error ${err.message}` });
   }
 };
+
+export const getInterviewHistory = async(req,res)=>{
+  try{
+    const interviews = await interview.find({userId:req.userId})
+   .sort({createdAt: -1})
+   .select("-resumeText -questions.answer");
+  }  
+  catch(err){
+    return res.status(500).json({message:`History error:${err.message}`});
+  }
+}

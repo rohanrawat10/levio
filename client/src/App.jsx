@@ -8,6 +8,7 @@ import { serverUrl } from './utils/config';
 import { setUserData } from './redux/userSlice';
 import InterviewPage from './pages/InterviewPage';
 import InterviewReport from './pages/InterviewReport';
+import HistoryPage from './pages/HistoryPage';
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -34,6 +35,8 @@ function App() {
       <Route path='/auth' element={<Auth/>}/>
       <Route path='/interview' element={<InterviewPage/>}/>
       <Route path='/report' element={<InterviewReport/>}/>
+       <Route path='/interview-history' element={<HistoryPage/>} />
+       
     </Routes>
     </BrowserRouter>
   )
