@@ -72,6 +72,7 @@ function Step1SetUp({ onStart }) {
   const handleStart = async()=>{
     setLoading(true);
       console.log("Sending data:", {
+        ...response.data,
     role,
     experience,
     resumeText: resumeText?.length, // how long is it?

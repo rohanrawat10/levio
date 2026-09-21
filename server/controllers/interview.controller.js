@@ -73,7 +73,11 @@ export const analyzeResume = async (req, res) => {
 };
 
 export const genrateQuestions = async (req, res) => {
+   console.log("1. generateQuestions hit ✅")
+  console.log("2. req.body:", req.body)
+  console.log("3. userId:", req.userId)
   try {
+  
     let { role, experience, resumeText, mode, projects, skills } = req.body;
     experience = experience.trim();
     resumeText = resumeText.trim();
@@ -474,9 +478,11 @@ export const finishInterview = async (req, res) => {
 
 export const getInterviewHistory = async(req,res)=>{
   try{
-    const interviews = await interview.find({userId:req.userId})
+    const interviews = await Interview.find({userId:req.userId})
    .sort({createdAt: -1})
    .select("-resumeText -questions.answer");
+      console.log("inteviews found:",interviews.length)
+   res.status(200).json({interviews});
   }  
   catch(err){
     return res.status(500).json({message:`History error:${err.message}`});

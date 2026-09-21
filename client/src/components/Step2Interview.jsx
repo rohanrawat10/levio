@@ -425,45 +425,39 @@ function Step2Interview({ interviewData, onFinish }) {
     }
   };
 
-  const handleFinish = async () => {
-    try {
-      SpeechRecognition.stopListening();
-      setIsMicOn(false);
+ const handleFinish = async () => {
+  try {
+    console.log("handleFinish called ✅")
+    SpeechRecognition.stopListening();
+    setIsMicOn(false);
 
-      await speakText(
-        "Great job! You have completed the interview. Generating your performance report now."
-      );
+    await speakText(
+      "Great job! You have completed the interview. Generating your performance report now."
+    );
 
-      const { data } = await axios.post(
-        `${serverUrl}/api/interview/finish-interview`,
-        {
-          interviewId,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+    const { data } = await axios.post(
+      `${serverUrl}/api/interview/finish-interview`,
+      { interviewId },
+      { withCredentials: true }
+    );
 
-      if (!mountedRef.current) return;
+    console.log("FINISH DATA:", data);
 
-      // Pass report data to parent
-      if (onFinish) {
-        onFinish(data);
-      }
+    if (!mountedRef.current) return;
 
-      // Navigate to report
-      navigate(`/report/${interviewId}`);
-    } catch (err) {
-      console.log(
-        "Finish error:",
-        err.response?.data || err.message
-      );
-
-      if (mountedRef.current) {
-        setIsSubmitting(false);
-      }
+    if (onFinish) {
+      onFinish(data); // ✅ this triggers setStep(3)
     }
-  };
+
+   
+
+  } catch (err) {
+    console.log("Finish error:", err.response?.data || err.message);
+    if (mountedRef.current) {
+      setIsSubmitting(false);
+    }
+  }
+};
 
  
   if (!interviewData || !questions.length) {
