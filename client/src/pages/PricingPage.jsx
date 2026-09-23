@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 function PricingPage() {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState("free");
-
+   const [loading,setLoading] = useState(false);
   const plans = [
     {
       id: "free",
@@ -55,7 +55,7 @@ function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-10 px-5 sm:px-8">
+    <div className="min-h-screen bg-[#F5F5DC] py-10 px-5 sm:px-8">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-12">
         <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ function PricingPage() {
                 ${
                   isSelected
                     ? "border-emerald-500 bg-white shadow-xl shadow-emerald-100"
-                    : "border-gray-200 bg-white/90 shadow-md hover:shadow-xl"
+                    : "border-emerald-200 bg-white/60 shadow-md hover:shadow-xl"
                 }
                 ${plan.default ? "cursor-default" : "cursor-pointer"}
               `}
@@ -214,6 +214,6 @@ function PricingPage() {
       </p>
     </div>
   );
-}
+} 
 
 export default PricingPage;
