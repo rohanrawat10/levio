@@ -96,7 +96,7 @@ function Navbar() {
                           
                    '>
                        <p className='font-semibold text-gray-800 mb-4'>Fuel your journey with Credits</p>
-                                    <button onClick={()=>navigate("/payment")} className='w-full bg-[#023020] text-white py-2 rounded-lg text-sm hover:-translate-y-0.5 active:translate-y-0.5'>Add Credit</button>
+                                    <button onClick={()=>navigate("/top-up")} className='w-full bg-[#023020] text-white py-2 rounded-lg text-sm hover:-translate-y-0.5 active:translate-y-0.5'>Add Credit</button>
            
                     </motion.div>
                 )

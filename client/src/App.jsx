@@ -7,7 +7,9 @@ import {useDispatch} from "react-redux";
 import { serverUrl } from './utils/config';
 import { setUserData } from './redux/userSlice';
 import InterviewPage from './pages/InterviewPage';
-
+import HistoryPage from './pages/HistoryPage';
+import Step3Report from './components/Step3Report';
+import PricingPage from './pages/PricingPage';
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -33,6 +35,10 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/auth' element={<Auth/>}/>
       <Route path='/interview' element={<InterviewPage/>}/>
+      <Route path="/report/:id" element={<Step3Report/>}/>
+       <Route path='/interview-history' element={<HistoryPage/>} />
+       <Route path='/top-up'  element={<PricingPage/>}/>
+       
     </Routes>
     </BrowserRouter>
   )
