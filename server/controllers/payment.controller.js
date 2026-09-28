@@ -1,7 +1,7 @@
-import payments from "razorpay/dist/types/payments";
-import Payment from "../models/payment.mdel";
-import razorpay from "../services/razorpay.service";
-
+import Payment from "../models/payment.model.js";
+import razorpay from "../services/razorpay.service.js";
+import crypto from "crypto"
+import User from "../models/user.models.js"
 export const createOrder = async(req,res)=>{
     try{
       const {planId,amount,credits} = req.body;
@@ -12,7 +12,7 @@ export const createOrder = async(req,res)=>{
       const options = {
         amount:amount * 100,//convert to paise
         currency:"INR",
-        receipt:`receipt_${Date.now}`
+        receipt:`receipt_${Date.now()}`
       }
 
       const order = await razorpay.orders.create(options);
@@ -24,7 +24,7 @@ export const createOrder = async(req,res)=>{
         razorpayOrderId:order.id,
         status:"created"
       })
-      res.json
+      res.json(order)
     }
     catch(err){
         res.status(500).json({message:`failed ot create Razorpay order: ${err}`})
@@ -39,7 +39,7 @@ export const verifyPayment = async(req,res)=>{
         } = req.body;
        const body = razorpay_order_id + "|" + razorpay_payment_id;
        const expectedSignature = crypto
-       .CreateHmac("sha256",process.env.RAZORPAY_KEY_SECRET)
+       .createHmac("sha256",process.env.RAZORPAY_KEY_SECRET)
        .update(body)
        .digest("hex");
 
@@ -51,9 +51,11 @@ export const verifyPayment = async(req,res)=>{
         razorpayOrderId:razorpay_order_id,
        });
        if(!payment){
-        return res.json({message:"Already processed"});
+        return res.status(404).json({message:"Payment not found"});
        }
-
+      if(payment.status === "paid"){
+        return res.status(400).json({message:"Already processed"})
+      }
        //update payment record
      payment.status = "paid";
      payment.razorpayPaymentId  = razorpay_payment_id;

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+import axios from "axios";
+import { serverUrl } from "../utils/config";
 
 function PricingPage() {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState("free");
-   const [loading,setLoading] = useState(false);
+   const [loadingPlan,setLoadingPlan] = useState(null);
   const plans = [
     {
       id: "free",
@@ -53,6 +55,46 @@ function PricingPage() {
       badge: "Best Value",
     },
   ];
+
+  const handlePayment = async(plan)=>{
+    try{
+        setLoadingPlan(plan.id)
+
+        const amount = plan.id === "basic"?100:
+                    plan.id === "pro"? 500:0;
+
+                    const response = await axios.post(`${serverUrl}/api/payment/order`,{
+                      planId:plan.id,
+                      amount:amount,
+                      credits:plan.credits
+                    },{withCredentials:true})
+
+                    console.log(response.data)
+
+                    const options = {
+                      key:import.meta.env.VITE_RAZORPAY_KEY_ID,
+                      amount:response.data.amount,
+                      currency:"INR",
+                      name:"Livio.AI",
+                      description:`${plan.name} - ${plan.credits} Credits`,
+                      order_id:response.data.id,
+
+                      handler:async function(response){
+                        console.log(response)
+                      },
+                      theme:{
+                        color:"#10b981",
+                      },
+                        }
+                      const rzp = new window.Razorpay(options)
+                      rzp.open()
+                      setLoadingPlan(null)
+                  
+    }
+    catch(err){
+      console.log("handle payment error",err.message)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#F5F5DC] py-10 px-5 sm:px-8">
@@ -178,10 +220,16 @@ function PricingPage() {
               {/* Button */}
               {!plan.default && (
                 <motion.button
+                disabled={loadingPlan === plan.id }
                   whileTap={{ scale: 0.97 }}
                   onClick={(e) => {
                     e.stopPropagation();
+                   if(!isSelected){
                     setSelectedPlan(plan.id);
+                   }
+                   else{
+                    handlePayment(plan)
+                   }
                   }}
                   className={`
                     w-full mt-8 py-3.5 rounded-xl
@@ -193,7 +241,7 @@ function PricingPage() {
                     }
                   `}
                 >
-                  {isSelected ? "Proceed to Pay" : "Select Plan"}
+                  {loadingPlan?"Processing":isSelected ? "Proceed to Pay" : "Select Plan"}
                 </motion.button>
               )}
 
