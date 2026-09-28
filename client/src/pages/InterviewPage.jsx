@@ -5,12 +5,22 @@ import Step3Report from '../components/Step3Report';
 
 function InterviewPage() {
     const [step,setStep] = useState(1);
+    const [originalSetUp,setOriginalSetUp]  = useState(null);
     const [interviewData,setInterviewData] = useState(null);
-  return (
+          console.log("current step:",step);
+
+          const handleRetake = (newInterviewData) =>{
+            setInterviewData(newInterviewData);
+            setStep(2);//interview
+          }
+    return (
     <div className='min-h-screen'>
         {
             step === 1 &&( 
-            <Step1SetUp onStart={(data)=>{setInterviewData(data);
+            <Step1SetUp onStart={(data)=>{
+                console.log("saving orignal Setup:",data)
+                setOriginalSetUp(data);
+                setInterviewData(data);
                 setStep(2);
             }}/>)
         }
@@ -25,7 +35,11 @@ function InterviewPage() {
         {
             step === 3 && 
             (
-            <Step3Report interviewData={interviewData}/>)
+            <Step3Report 
+              interviewData={interviewData}
+              originalSetup={originalSetUp}
+              onRetake={handleRetake}
+            />)
         }
 
     </div>

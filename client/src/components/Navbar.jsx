@@ -56,12 +56,12 @@ function Navbar() {
           }
          },[])
     return (
-    <div className='bg-[] flex justify-center px-4 pt-6'>
+    <div className='relative z-50 flex justify-center px-4 pt-5'>
         <motion.div 
         initial={{opacity:0,y:-40}}
         animate={{opacity:1,y:0}}
         transition={{duration:0.8}}
-        className='w-full max-w-3xl px-8 py-4 flex justify-between shadow-md border
+        className='relative  z-50 w-full max-w-3xl px-8 py-4 flex justify-between shadow-md border
            border-gray-200 bg-white rounded-3xl items-center'
           >
            <div className='flex items-center  gap-3 cursor-pointer' onClick={()=>navigate("/")}>
@@ -84,7 +84,7 @@ function Navbar() {
                 setCreditPopUp(!creditPopUp)}}
               >
                 <FaCoins size={18}/>
-            {userData?.user?.credit || 0}
+            {userData?.user?.credits || 0}
               </button>
               {
                 creditPopUp && (
@@ -92,11 +92,11 @@ function Navbar() {
                   initial={{opacity:0,y:-40}}
                   animate={{opacity:1,y:0}}
                   transition={{duration:0.5}}
-                   className=' absolute top-[75px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
+                   className=' absolute top-[55px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
                           
                    '>
                        <p className='font-semibold text-gray-800 mb-4'>Fuel your journey with Credits</p>
-                                    <button onClick={()=>navigate("/payment")} className='w-full bg-[#023020] text-white py-2 rounded-lg text-sm hover:-translate-y-0.5 active:translate-y-0.5'>Add Credit</button>
+                                    <button onClick={()=>navigate("/top-up")} className='w-full bg-[#023020] text-white py-2 rounded-lg text-sm hover:-translate-y-0.5 active:translate-y-0.5'>Add Credit</button>
            
                     </motion.div>
                 )
@@ -120,7 +120,7 @@ function Navbar() {
                     initial={{opacity:0,y:-40}}
                     animate={{opacity:1,y:0}}
                     transition={{duration:0.5}}
-                  className='  absolute top-[75px] right-[-40px] bg-white shadow-xl rounded-xl p-3 w-64 items-center shadow-3xl'>
+                  className='  absolute z-[100] top-[55px] right-0 bg-white shadow-xl rounded-xl p-3 w-64 shadow-3xl'>
                    <h1 className='text-lg font-semibold text-blue-500'>
                     {userData?.user?.name}
                    </h1>

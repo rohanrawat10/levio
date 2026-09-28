@@ -7,7 +7,11 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true,
-    }
+    },
+    credits:{
+        type:Number,
+        default:100
+    },
 
 },{timestamps:true})
 const User = mongoose.model("User",userSchema);

@@ -35,7 +35,7 @@ function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }}
               transition={{ duration: 2 }}
               className="flex items center gap-2  text-gray-700 text-sm px-4 py-2 rounded-full "

@@ -71,6 +71,15 @@ function Step1SetUp({ onStart }) {
 
   const handleStart = async()=>{
     setLoading(true);
+      console.log("Sending data:", {
+        ...response.data,
+    role,
+    experience,
+    resumeText: resumeText?.length, // how long is it?
+    mode,
+    projects,
+    skills
+  });
      try{
         const response = await axios.post(`${serverUrl}/api/interview/generate-questions`,
           { role, experience, resumeText, mode, projects, skills},
@@ -86,11 +95,16 @@ function Step1SetUp({ onStart }) {
 
      }
      catch(err){
-      console.log("handle start error:",err.message)
-      setLoading(false);
-      toast.error("Error!")
+      
+  console.log("handle start error:", err.message)
+  console.log("error response:", err.response?.data) // 👈 add this
+  setLoading(false);
+  toast.error(err.response?.data?.message || "Error!")
+}
      }
-  }
+
+     
+  
 
   return (
     <motion.div

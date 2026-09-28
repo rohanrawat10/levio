@@ -8,6 +8,7 @@ import connectDb from "./config/db.js";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import interviewRoute from "./routes/interview.route.js";
+import paymentRouter from "./routes/payment.route.js";
 const app = express();
 const server = http.createServer(app)
 const port = process.env.PORT || 4000;
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth",authRouter);
 app.use("/api/user",userRouter);
 app.use("/api/interview",interviewRoute);
+app.use("/api/payment",paymentRouter)
 // console.log("PORT from env:", process.env.PORT);
 server.listen(port,()=>{
     connectDb()
