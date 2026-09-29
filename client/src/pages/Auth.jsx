@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
 import toast from 'react-hot-toast'
 
-function Auth({ isModal = false,onClose }) {
+function Auth({ isModal = false }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
