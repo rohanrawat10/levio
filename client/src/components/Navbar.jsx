@@ -100,7 +100,7 @@ function Navbar() {
                   initial={{opacity:0,y:-40}}
                   animate={{opacity:1,y:0}}
                   transition={{duration:0.5}}
-                   className=' absolute z-[-100] top-[75px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
+                   className=' absolute z-[-1000] top-[75px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
                           
                    '>
                        <p className='font-semibold text-gray-800 mb-4'>Fuel your journey with Credits</p>
@@ -128,7 +128,7 @@ function Navbar() {
                     initial={{opacity:0,y:-40}}
                     animate={{opacity:1,y:0}}
                     transition={{duration:0.5}}
-                  className='  absolute top-[75px] right-[-40px] bg-white shadow-xl rounded-xl p-3 w-64 items-center shadow-3xl'>
+                  className='  absolute z-[-1000] top-[75px] right-[-40px] bg-white shadow-xl rounded-xl p-3 w-64 items-center shadow-3xl'>
                    <h1 className='text-lg font-semibold text-blue-500'>
                     {userData?.user?.name}
                    </h1>
