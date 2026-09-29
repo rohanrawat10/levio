@@ -30,8 +30,10 @@ function Home() {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1 px-6 py-1">
+      <div className="relative z-[999]">
+        <Navbar /></div>
+    
+      <div className="relative z-0 flex-1 px-6 py-1">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">
             <motion.div
