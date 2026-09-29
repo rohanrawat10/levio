@@ -23,11 +23,11 @@ function Auth({ isModal = false }) {
       const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
         name: result.user.displayName,
         email: result.user.email,
-      }, { withCredentials: true })
-      console.log("FULL LOGIN RESPONSE:", data);
-console.log("USER FROM API:", data.user);
+//       }, { withCredentials: true })
+//       console.log("FULL LOGIN RESPONSE:", data);
+// console.log("USER FROM API:", data.user);
 
-dispatch(setUserData(data.user));
+dispatch(setUserData(data));
     navigate("/")
     toast.success("Logged In")
        
