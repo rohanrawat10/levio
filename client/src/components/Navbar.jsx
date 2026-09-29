@@ -92,7 +92,7 @@ function Navbar() {
                 setCreditPopUp(!creditPopUp)}}
               >
                 <FaCoins size={18}/>
-            {userData?.user?.credit || userData?.credit||0}
+            {userData?.user?.credits || userData?.credits||0}
               </button>
               {
                 creditPopUp && (
