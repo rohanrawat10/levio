@@ -5,7 +5,7 @@ import Auth from "../pages/Auth";
 function AuthModel({onClose}) {
     const {userData} = useSelector((state)=>state.user);
     useEffect(()=>{
-        if(userData?.user){
+        if(userData?.user||userData){
             onClose();
         }
     },[userData]);
