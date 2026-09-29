@@ -6,8 +6,8 @@ import { monitorEventLoopDelay } from "perf_hooks";
 import Interview from "../models/interview.model.js";
 
 export const analyzeResume = async (req, res) => {
-  console.log("1. controller hit");
-  console.log("2.req.file", req.file);
+  // console.log("1. controller hit");
+  // console.log("2.req.file", req.file);
   try {
     if (!req.file) {
       return res.status(400).json({ message: "file required" });
@@ -73,9 +73,9 @@ export const analyzeResume = async (req, res) => {
 };
 
 export const genrateQuestions = async (req, res) => {
-   console.log("1. generateQuestions hit ✅")
-  console.log("2. req.body:", req.body)
-  console.log("3. userId:", req.userId)
+  //  console.log("1. generateQuestions hit ✅")
+  // console.log("2. req.body:", req.body)
+  // console.log("3. userId:", req.userId)
   try {
   
     let { role, experience, resumeText, mode, projects, skills } = req.body;
@@ -120,8 +120,8 @@ export const genrateQuestions = async (req, res) => {
     };
 
     const level = getLevel(experience);
-    console.log("Candidate level:", level);
-    console.log("Question count:", questionCount);
+    // console.log("Candidate level:", level);
+    // console.log("Question count:", questionCount);
 
     // ✅ Level-based instructions
     const levelInstructions = {
@@ -291,7 +291,7 @@ export const genrateQuestions = async (req, res) => {
     });
 
   } catch (err) {
-    console.log("Generate Questions Error:", err);
+    // console.log("Generate Questions Error:", err);
     return res.status(500).json({
       message: `Failed to generate questions: ${err.message}`
     });
@@ -300,8 +300,8 @@ export const genrateQuestions = async (req, res) => {
 export const submitAnswer = async (req, res) => {
   try {
     const { interviewId, interviewIndex, answer, timeTaken } = req.body;
-    console.log("1. submitAnswer hit ✅")
-    console.log("2. req.body:", req.body)
+    // console.log("1. submitAnswer hit ✅")
+    // console.log("2. req.body:", req.body)
 
     // ✅ check interview first
     const interview = await Interview.findById(interviewId);
@@ -379,13 +379,13 @@ export const submitAnswer = async (req, res) => {
       }
     ];
 
-    console.log("3. calling AI ✅")
+    // console.log("3. calling AI ✅")
     const aiResponse = await askAi(messages);
-    console.log("4. AI raw response:", aiResponse)
+    // console.log("4. AI raw response:", aiResponse)
 
     const cleanResponse = aiResponse.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(cleanResponse); // ✅ clean before parsing
-    console.log("5. parsed:", parsed)
+    // console.log("5. parsed:", parsed)
 
     question.answer = answer;
     question.confidence = parsed.confidence;
@@ -399,7 +399,7 @@ export const submitAnswer = async (req, res) => {
     return res.status(200).json({ feedback: parsed.feedback });
 
   } catch (err) {
-    console.log("submitAnswer Error:", err.message)
+    // console.log("submitAnswer Error:", err.message)
     return res.status(500).json({
       message: `Failed to submit answer: ${err.message}`
     });
@@ -468,7 +468,7 @@ export const finishInterview = async (req, res) => {
       })),
     });
   } catch (err) {
-    console.log("finish interview error:", err);
+    // console.log("finish interview error:", err);
 
     return res.status(500).json({
       message: `finish interview error ${err.message}`,
@@ -481,7 +481,7 @@ export const getInterviewHistory = async(req,res)=>{
     const interviews = await Interview.find({userId:req.userId})
    .sort({createdAt: -1})
    .select("-resumeText -questions.answer");
-      console.log("inteviews found:",interviews.length)
+      // console.log("inteviews found:",interviews.length)
    res.status(200).json({interviews});
   }  
   catch(err){
