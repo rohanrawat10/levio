@@ -24,8 +24,6 @@ app.use("/api/auth",authRouter);
 app.use("/api/user",userRouter);
 app.use("/api/interview",interviewRoute);
 app.use("/api/payment",paymentRouter)
-// console.log("PORT from env:", process.env.PORT);
 server.listen(port,()=>{
     connectDb()
-    console.log(`Server running on port ${port}`)
 })
