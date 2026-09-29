@@ -23,7 +23,7 @@ function Auth({ isModal = false }) {
       const { data } = await axios.post(`${serverUrl}/api/auth/google-auth`, {
         name: result.user.displayName,
         email: result.user.email,
-//       }, { withCredentials: true })
+      }, { withCredentials: true })
 //       console.log("FULL LOGIN RESPONSE:", data);
 // console.log("USER FROM API:", data.user);
 
