@@ -132,7 +132,9 @@ function Navbar() {
                    <h1 className='text-lg font-semibold text-blue-500'>
                     {userData?.user?.name}
                    </h1>
-                   <button className='w-full text-left text-md py-1 hover:text-black text-gray-900 cursor-pointer'>Interviews</button>
+                   <button onClick={()=>navigate('/interview-history')}
+                       className='w-full text-left text-md py-1 hover:text-black text-gray-900 cursor-pointer'>
+                       Interviews</button>
                    <button onClick={handleLogOut}className='flex text-sm font-semibold cursor-pointer text-red-500  rounded-lg py-0.5 px-2 mt-5'>
                    <IoIosLogOut size={15} /> Log out
                    </button>
