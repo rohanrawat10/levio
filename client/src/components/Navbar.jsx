@@ -64,7 +64,7 @@ function Navbar() {
           }
          },[])
     return (
-    <div className='bg-[] flex justify-center px-4 pt-6'>
+    <div className='relative z-[999] flex justify-center px-4 pt-6'>
         <motion.div 
         initial={{opacity:0,y:-40}}
         animate={{opacity:1,y:0}}
@@ -100,7 +100,7 @@ function Navbar() {
                   initial={{opacity:0,y:-40}}
                   animate={{opacity:1,y:0}}
                   transition={{duration:0.5}}
-                   className=' absolute top-[75px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
+                   className=' absolute z-[-100] top-[75px] right-[-60px] bg-white shadow-xl rounded-xl p-3 w-64 items-center
                           
                    '>
                        <p className='font-semibold text-gray-800 mb-4'>Fuel your journey with Credits</p>
