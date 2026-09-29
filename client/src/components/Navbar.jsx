@@ -22,7 +22,7 @@ function Navbar() {
     const creditRef = useRef(null);
     const [showAuth,setShowAuth] = useState(false);
     console.log("user from store:",userData)
-    const firstLetter = userData?.user?.name?.charAt(0).toUpperCase();
+    const firstLetter = userData?.user?.name?.charAt(0).toUpperCase()|| userData?.name?.charAt(0).toUpperCase();
         //  console.log(firstLetter)
            console.log("userdata"+ userData)
          const handleLogOut = async()=>{
