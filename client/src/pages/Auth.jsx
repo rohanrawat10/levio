@@ -24,12 +24,11 @@ function Auth({ isModal = false }) {
         name: result.user.displayName,
         email: result.user.email,
       }, { withCredentials: true })
-//       console.log("FULL LOGIN RESPONSE:", data);
-// console.log("USER FROM API:", data.user);
+      console.log("FULL LOGIN RESPONSE:", data);
+console.log("USER FROM API:", data.user);
 
 dispatch(setUserData(data));
     
-    toast.success("Logged In")
        
       if(isModal && onClose){
         onClose();
@@ -42,6 +41,7 @@ dispatch(setUserData(data));
       dispatch(setUserData(null))
       toast.error("Something went wrong!")
     }
+      toast.success("Logged In")
   }
 
   return (
