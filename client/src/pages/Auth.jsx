@@ -28,15 +28,15 @@ function Auth({ isModal = false }) {
 // console.log("USER FROM API:", data.user);
 
 dispatch(setUserData(data));
-    navigate("/")
+    
     toast.success("Logged In")
        
-      // if(isModal && onClose){
-      //   onClose();
-      // }
-      // else{
-      //   navigate("/")
-      // }
+      if(isModal && onClose){
+        onClose();
+      }
+      else{
+        navigate("/")
+      }
     } catch (err) {
       console.log(err.message)
       dispatch(setUserData(null))
