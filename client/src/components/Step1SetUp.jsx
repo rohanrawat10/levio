@@ -69,39 +69,62 @@ function Step1SetUp({ onStart }) {
     }
   };
 
-  const handleStart = async()=>{
-    setLoading(true);
-      console.log("Sending data:", {
-        ...response.data,
+  const handleStart = async () => {
+  setLoading(true);
+
+  console.log("Sending data:", {
     role,
     experience,
-    resumeText: resumeText?.length, // how long is it?
+    resumeText: resumeText?.length,
     mode,
     projects,
     skills
   });
-     try{
-        const response = await axios.post(`${serverUrl}/api/interview/generate-questions`,
-          { role, experience, resumeText, mode, projects, skills},
-          {withCredentials:true})
 
-          console.log("handle start data:",response.data);
-          if(userData){
-            dispatch(setUserData({...userData, credits:response.data.creditsLeft}))
-          }
-          setLoading(false);
-          onStart(response.data)
-       toast.success("Resume Analyzed! ✅");
+  try {
+    const response = await axios.post(
+      `${serverUrl}/api/interview/generate-questions`,
+      {
+        role,
+        experience,
+        resumeText,
+        mode,
+        projects,
+        skills
+      },
+      {
+        withCredentials: true
+      }
+    );
 
-     }
-     catch(err){
-      
-  console.log("handle start error:", err.message)
-  console.log("error response:", err.response?.data) // 👈 add this
-  setLoading(false);
-  toast.error(err.response?.data?.message || "Error!")
-}
-     }
+    console.log("handle start data:", response.data);
+
+    if (userData) {
+      dispatch(
+        setUserData({
+          ...userData,
+          credits: response.data.creditsLeft
+        })
+      );
+    }
+
+    setLoading(false);
+
+    onStart(response.data);
+
+    toast.success("Interview Generated! 🎯");
+
+  } catch (err) {
+    console.log("handle start error:", err.message);
+    console.log("error response:", err.response?.data);
+
+    setLoading(false);
+
+    toast.error(
+      err.response?.data?.message || "Error!"
+    );
+  }
+};
 
      
   
