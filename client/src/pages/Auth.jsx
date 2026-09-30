@@ -39,7 +39,7 @@ dispatch(setUserData(data));
             toast.success("Logged In")
 
     } catch (err) {
-      console.log(err.message)
+      console.log("google auth err",err.message)
       dispatch(setUserData(null))
       toast.error("Something went wrong!")
     }
