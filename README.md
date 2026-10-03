@@ -175,6 +175,7 @@ npm run dev
 ---
 
 ## 🔄 How It Works
+```
 1.User signs in with Google
 2.Upload resume PDF → AI extracts role, skills, projects
 3.Select interview type (Technical / HR)
@@ -186,7 +187,7 @@ npm run dev
 9.AI speaks feedback after each answer
 10.Full performance report generated at the end
 11.Results saved to interview history
-
+```
 ---
 
 ## 👨‍💻 Author
